@@ -609,11 +609,7 @@ class WyvernRandom : IdleDummy
 				{
 					return;
 				}
-				wpn.special = special;
-				for (int i = 0; i < 5; ++i)
-				{
-					wpn.Args[i] = Args[i];
-				}
+				HDF.TransferSpecials(self, wpn);
 				wpn.InitializeWepStats(false);
 			}
 			Stop;
