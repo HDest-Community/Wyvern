@@ -340,18 +340,19 @@ class HDWyvern : HDWeapon
 
 		ShootLeft:
 			WYVF # 1 Bright A_WyvernFire(1);
-			WYVG # 1 Offset(0, 38) A_CheckIdleHammer();
-			WYVG # 1 Offset(0, 33);
+			WYVG # 1 Offset(0, 44) A_CheckIdleHammer();
+			WYVG # 1 Offset(0, 38);
 			Goto Ready;
 		ShootRight:
 			WYVF # 1 Bright A_WyvernFire(2);
-			WYVG # 1 Offset(0, 38) A_CheckIdleHammer();
-			WYVG # 1 Offset(0, 33);
+			WYVG # 1 Offset(0, 44) A_CheckIdleHammer();
+			WYVG # 1 Offset(0, 38);
 			Goto Ready;
 		ShootBoth:
 			WYVF # 1 Bright A_WyvernFire(3);
-			WYVG # 1 Offset(0, 44) A_CheckIdleHammer();
-			WYVG # 1 Offset(0, 37);
+			WYVG # 1 Offset(0, 52) A_CheckIdleHammer();
+			WYVG # 1 Offset(0, 42);
+			WYVG # 1 Offset(0, 36);
 			Goto Ready;
 
 		AltReload:
