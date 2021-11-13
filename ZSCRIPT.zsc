@@ -42,7 +42,8 @@ class HDWyvern : HDWeapon
 	{
 		WVF_Double = 1,
 		WVF_FromPockets = 2,
-		WVF_JustUnload = 4
+		WVF_JustUnload = 4,
+		WVF_Autoloader = 8
 	}
 
 	enum WyvernProperties
@@ -106,6 +107,14 @@ class HDWyvern : HDWeapon
 		}
 		return BaseSprite..Frame.."0", 0.9;
 	}
+	override void LoadoutConfigure(string input)
+	{
+		InitializeWepStats();
+		if (GetLoadoutVar(input, "auto", 1) > 0)
+		{
+			WeaponStatus[WVProp_Flags] |= WVF_Autoloader;
+		}
+	}
 	override void InitializeWepStats(bool idfa)
 	{
 		WeaponStatus[WVProp_LeftChamber] = 1;
@@ -120,7 +129,6 @@ class HDWyvern : HDWeapon
 			owner.A_DropInventory("HD50OMGAmmo", amt * 10);
 		}
 	}
-
 	override string GetHelpText()
 	{
 		return WEPHELP_FIRE.."  Shoot Left\n"
@@ -131,7 +139,11 @@ class HDWyvern : HDWeapon
 		..WEPHELP_FIREMODE.."+"..WEPHELP_RELOAD.."  Load side saddles\n"
 		..WEPHELP_UNLOADUNLOAD;
 	}
-
+	override string PickupMessage()
+	{
+		string autoStr = WeaponStatus[WVProp_Flags] & WVF_Autoloader ? "autoloading " : "";
+		return String.Format("You picked up the %s'Wyvern' .50 cal. double barreled rifle.", autoStr);
+	}
 	override void DrawHUDStuff(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl)
 	{
 		if (sb.hudlevel == 1)
@@ -170,7 +182,6 @@ class HDWyvern : HDWeapon
 			sb.DrawRect(-11 - i * 2, -7, 1, 5);
 		}
 	}
-
 	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot)
 	{
 		int cx, cy, cw, ch;
@@ -250,7 +261,6 @@ class HDWyvern : HDWeapon
 		Weapon.BobRangeX 0.18;
 		Weapon.BobRangeY 0.7;
 		Tag "Wyvern";
-		Inventory.PickupMessage "You picked up the 'Wyvern' .50 cal. double barreled rifle.";
 		HDWeapon.Refid "wyv";
 	}
 
@@ -385,7 +395,7 @@ class HDWyvern : HDWeapon
 				}
 				else if (CountInv("HD50OMGAmmo") > 0)
 				{
-					invoker.WeaponStatus[0] |= WVF_FromPockets;
+					invoker.WeaponStatus[WVProp_Flags] |= WVF_FromPockets;
 				}
 				else
 				{
@@ -448,6 +458,18 @@ class HDWyvern : HDWeapon
 				}
 				else
 				{
+					if (invoker.WeaponStatus[WVProp_Flags] & WVF_Autoloader && invoker.WeaponStatus[WVProp_SideSaddles] > 0)
+					{
+						invoker.WeaponStatus[WVProp_SideSaddles]--;
+						invoker.WeaponStatus[WVProp_LeftChamber] = 1;
+						if (invoker.WeaponStatus[WVProp_SideSaddles] > 0)
+						{
+							invoker.WeaponStatus[WVProp_SideSaddles]--;
+							invoker.WeaponStatus[WVProp_RightChamber] = 1;
+						}
+						SetWeaponState('UnloadEnd');
+						return;
+					}
 					SetWeaponState('ReloadContinue');
 				}
 			}
@@ -609,6 +631,10 @@ class WyvernRandom : IdleDummy
 				if (!wpn)
 				{
 					return;
+				}
+				if (!random(0, 3))
+				{
+					wpn.WeaponStatus[wpn.WVProp_Flags] |= wpn.WVF_Autoloader;
 				}
 				HDF.TransferSpecials(self, wpn);
 				wpn.InitializeWepStats(false);
