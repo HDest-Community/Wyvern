@@ -534,7 +534,6 @@ class HDWyvern : HDWeapon
 					SetWeaponState('ReloadSSEnd');
 				}
 
-				//load shells into hand
 				int HandRounds = min(2, CountInv("HD50OMGAmmo"));
 				if (HandRounds < 1)
 				{
