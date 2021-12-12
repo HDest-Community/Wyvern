@@ -467,7 +467,7 @@ class HDWyvern : HDWeapon
 							invoker.WeaponStatus[WVProp_SideSaddles]--;
 							invoker.WeaponStatus[WVProp_RightChamber] = 1;
 						}
-						SetWeaponState('UnloadEnd');
+						SetWeaponState('UnloadEndQuick');
 						return;
 					}
 					SetWeaponState('ReloadContinue');
@@ -610,6 +610,7 @@ class HDWyvern : HDWeapon
 			Goto Nope;
 		UnloadEnd:
 			WYVR B 5;
+		UnloadEndQuick:
 			WYVR B 2 Offset(0, 46) A_StartSound("Wyvern/Close", 9);
 			WYVR B 1 Offset(0, 42);
 			WYVG B 2 Offset(0, 42);
