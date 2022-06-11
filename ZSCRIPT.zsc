@@ -12,13 +12,13 @@ class WyvernHandler : EventHandler
 		switch (e.Replacement.GetClassName())
 		{
 			case 'RLReplaces':
-				if (random[wyvernrand]() <= 48)
+				if (random[wyvernrand]() <= AceCore.GetScaledChance(0, 40, acl_spawnscale_min, acl_spawnscale_max));
 				{
 					e.Replacement = "WyvernRandom";
 				}
 				break;
 			case 'CellRandom':
-				if (random[wyvernrand]() <= 32)
+				if (random[wyvernrand]() <= AceCore.GetScaledChance(16, 32, acl_spawnscale_min, acl_spawnscale_max))
 				{
 					e.Replacement = "HD50OMGBoxPickup";
 				}
