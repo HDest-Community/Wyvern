@@ -12,7 +12,7 @@ class WyvernHandler : EventHandler
 		switch (e.Replacement.GetClassName())
 		{
 			case 'RLReplaces':
-				if (random[wyvernrand]() <= AceCore.GetScaledChance(0, 40, acl_spawnscale_min, acl_spawnscale_max));
+				if (random[wyvernrand]() <= AceCore.GetScaledChance(0, 40, acl_spawnscale_min, acl_spawnscale_max))
 				{
 					e.Replacement = "WyvernRandom";
 				}
