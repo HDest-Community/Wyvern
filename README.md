@@ -1,6 +1,5 @@
-### Important
----
-- This mod requires [BulletLib](https://gitlab.com/accensi/hd-addons/hdbulletlib).
+### Wyvern
+_Requires [BulletLib - Recasted](https://github.com/HDest-Community/HDBulletLib-Recasted) and [AceCoreLib](https://github.com/HDest-Community/AceCoreLib), by the HDest Community._
 
 ### Notes
 ---
